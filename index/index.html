@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painél da FlyGo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Configurações básicas */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding-top: 80px; /* Ajuste para que o conteúdo não fique escondido atrás da barra superior */
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Barra superior */
+        .top-bar {
+            background-color: #ff7f00; /* Laranja */
+            color: white;
+            padding: 10px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .top-bar h1 {
+            font-size: 1.5em;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .top-bar .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .top-bar button {
+            background: #333;
+            color: white;
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .top-bar button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Layout principal */
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Estatísticas */
+        .stats-card {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            width: 100%;
+            max-width: 50%;
+        }
+
+        .stats-item {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stats-item i {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            color: #ff7f00;
+        }
+
+        /* Voos recentes */
+        .recent-flights-card {
+            width: 100%;
+            max-width: 50%;
+        }
+
+        .flight-item {
+            background-color: #ffffff;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+            font-size: 0.9em;
+        }
+/* Mapa */
+.map-card {
+    width: 65%;  /* Reduz o tamanho para 70% da área da página */
+    height: 420px; /* Reduz a altura proporcionalmente */
+    margin: 0 auto; /* Centraliza o mapa */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .top-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .map-card {
+        width: 90%; /* Ajusta o tamanho para dispositivos menores */
+        height: 300px; /* Ajusta a altura para dispositivos menores */
+    }
+}
+
+    </style>
+</head>
+<body>'
+    <!-- Barra superior -->
+    <div class="top-bar">
+        <h1>Estatísticas da FlyGo</h1>
+        <div class="buttons">
+            <button onclick="translateToPortuguese()">PT - BR</button>
+            <button onclick="translateToEnglish()">ENG</button>
+        </div>
+    </div>
+
+ <!-- Conteúdo principal -->
+<div class="container">
+    <div class="top-row">
+        <!-- Estatísticas -->
+        <div class="card stats-card" id="stats">
+            <div class="stats-item">
+                <i class="fas fa-plane"></i>
+                Voos Totais: <span id="Flights">0</span>
+            </div>
+            <div class="stats-item">
+                <i class="fas fa-clock"></i>
+                Voos Recentes: <span id="recentFlights">0</span>
+            </div>
+            <div class="stats-item">
+                <i class="fas fa-user"></i>
+                Pilotos Ativos: <span id="activePilots">0</span>
+            </div>
+ 	    <div class="stats-item">
+                <i class="fas fa-star"></i>
+                Rating: <span id="rating">0</span>
+            </div>
+
+        </div>
+
+        <!-- Voos Recentes -->
+        <div class="card recent-flights-card" id="recent-flights">
+            <h2>Voos Recentes</h2>
+        </div>
+    </div>
+</div>
+
+        <!-- Mapa -->
+        <div class="card map-card">
+            <h2>Mapa FlyGo</h2>
+            <iframe src="https://newsky.app/airline/public/map?style=dark&token=FLG_edUPdgOcYcsjpCwIhXPZ34R3NOpe9D" width="100%" height="100%"></iframe>
+        </div>
+    </div>
+
+    <script>
+
+// Função para buscar recentes
+
+
+
+
+
+
+        async function fetchRecentFlights() {
+            try {
+                const response = await fetch('https://newsky.app/api/airline-api/flights/recent?skip=0&count=5', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer FLG_o9V7uEE3Yu0K6S6BqFppKLoxEtWTTt',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) throw new Error('Erro ao buscar voos recentes');
+
+                const data = await response.json();
+                displayFlights(data.results);
+            } catch (error) {
+                console.error('Erro:', error);
+                document.getElementById('recent-flights').innerHTML = 'Erro ao carregar os voos recentes.';
+            }
+        }
+
+        function displayFlights(flights) {
+            const flightsContainer = document.getElementById("recent-flights");
+            flightsContainer.innerHTML = '<h2>Voos Recentes</h2>'; // Limpa e adiciona o título
+
+            const limitedFlights = flights.slice(0, 3);
+            limitedFlights.forEach(flight => {
+                const flightDiv = document.createElement('div');
+                flightDiv.className = 'flight-item';
+                flightDiv.innerHTML = `
+                 <span><strong>Piloto:</strong> ${flight.pilot.fullname.split(' ')[0]}<br>
+                 <span><strong>Aeronave:</strong> ${flight.aircraft.airframe.name}<br>
+                 <span><strong>Voo:</strong> ${flight.airline.icao}${flight.flightNumber}<br>
+                 <span><strong>Origem:</strong> ${flight.dep.icao}<br>
+                 <span><strong>Destino:</strong> ${flight.arr.icao}<br>
+                 <span><strong>Data de Partida:</strong> ${new Date(flight.depTimeAct).toLocaleString()}
+		<span><strong>Simulador:</strong> ${flight.simulator.toUpperCase()}<br></span>
+                `;
+                flightsContainer.appendChild(flightDiv);
+            });
+        }
+
+        fetchRecentFlights();
+ 
+
+// URL do proxy
+const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+// URL de destino da API
+const targetUrl = 'https://beta.newsky.app/api/airline-api/airline';
+
+
+
+// Função para buscar as estatísticas
+
+async function fetchStats() {
+    try {
+        const response = await fetch('https://beta.newsky.app/api/airline-api/airline', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer FLG_LTP8TswCgFMCtUOrBi8UbBaiFLkShn',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) throw new Error('Erro ao buscar as estatísticas');
+
+        const data = await response.json();
+        console.log('Dados recebidos da API:', data);  // Verifique o que é retornado aqui
+
+        const stats = data.airline.stats;
+        console.log('Estatísticas:', stats);  // Verifique se stats contém os valores corretos
+
+        // Exibe os dados na página
+        document.getElementById("Flights").innerText = data.airline.stats.flights;
+	document.getElementById("recentFlights").innerText = data.airline.stats.recentFlights;
+	document.getElementById("activePilots").innerText = data.airline.stats.activePilots;
+	document.getElementById("rating").innerText = data.airline.stats.rating;
+
+
+    } catch (error) {
+        console.error('Erro:', error);
+        document.getElementById("Flights").innerText = 'Erro ao carregar os dados';
+        document.getElementById("recentFlights").innerText = 'Erro ao carregar os dados';
+        document.getElementById("activePilots").innerText = 'Erro ao carregar os dados';
+    }
+}
+
+
+// Chama a função para buscar as estatísticas
+fetchStats();
+
+   </script>
+
+
+</body>
+
+</html>
